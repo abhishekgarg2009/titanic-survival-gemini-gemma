@@ -51,7 +51,7 @@ Remember to adjust the `output_dir` in `load_gemma_fine_tuned.py` accordingly if
 **Note on EOS Token:** Initial fine-tuning runs sometimes resulted in the model generating extra text beyond the desired '0' or '1' prediction. To address this and focus the model's output, the `gemma_2_fine_tune_eos.py` script was created. This script explicitly appends the End-of-Sequence (`<eos>`) token to the training examples in the `formatting_func`. Use this script if you want to replicate the training that specifically incorporates the EOS token.
 
 #### 2. Generating Predictions with Fine-tuned Gemma
-The `load_gemma_fine_tuned.py` script loads the fine-tuned Gemma model adapter from a specified checkpoint directory (e.g., from `outputs_gemma2_base` or `outputs_gemma2_base_eos`) and uses it to predict survival for passengers in the `test.csv` file.
+The `load_gemma_fine_tuned.py` script loads the fine-tuned Gemma model adapter from a specified checkpoint directory (e.g., from `outputs_gemma2_base` or `outputs_gemma2_base_eos`) and uses it to predict survival for passengers in the `test.csv` file. Alternatively, the `load_gemma_fine_tuned_ignore_empty.py` script can be used, which performs the same function but specifically ignores features with empty values when generating the prompt for the model.
 
 **Prerequisites:**
 *   Ensure `test.csv` is in the same directory.
@@ -67,13 +67,14 @@ This will generate a submission file (e.g., `submission_gemma_base_eos_512.csv`,
 
 The following table summarizes the Kaggle submission scores achieved with different fine-tuned Gemma-2 2b configurations:
 
-| Model Configuration              | Fine-tuning Script         | Training Steps | Kaggle Score |
-| :------------------------------- | :------------------------- | :------------- | :----------- |
-| Gemma-2 2b (Base)              | `gemma_2_fine_tune.py`     | 128            | **0.77751**  |
-| Gemma-2 2b (Instruction-Tuned) | `gemma_2_fine_tune.py`     | 128            | **0.78468**  |
-| Gemma-2 2b (Base + EOS)        | `gemma_2_fine_tune_eos.py` | 128            | **0.77751**  |
-| Gemma-2 2b (Base + EOS)        | `gemma_2_fine_tune_eos.py` | 256            | **0.77511**  |
-| Gemma-2 2b (Base + EOS)        | `gemma_2_fine_tune_eos.py` | 512            | **0.78947**  |
-| Gemma-2 2b (Base + EOS)        | `gemma_2_fine_tune_eos.py` | 1024           | **0.78229**  |
+| Model Configuration                        | Fine-tuning Script                 | Training Steps | Kaggle Score |
+| :----------------------------------------- | :--------------------------------- | :------------: | :----------: |
+| Gemma-2 2b (Base)                          | `gemma_2_fine_tune.py`             |      128       | **0.77751**  |
+| Gemma-2 2b (Instruction-Tuned)             | `gemma_2_fine_tune.py`             |      128       | **0.78468**  |
+| Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      128       | **0.77751**  |
+| Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      256       | **0.77511**  |
+| Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      512       | **0.78947**  |
+| Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |     1024       | **0.78229**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty)     | `gemma_2_fine_tune_eos.py`         |     1024       | **0.78468**  |
 
-*Note: The highest score (**0.78947**) was achieved with the Gemma-2 2b base model, fine-tuned for 512 steps using the script that explicitly adds the EOS token (`gemma_2_fine_tune_eos.py`).*
+*Note: The highest score (**0.78947**) was achieved with the Gemma-2 2b base model, fine-tuned for 512 steps using the script that explicitly adds the EOS token (`gemma_2_fine_tune_eos.py`). Additionally, the `load_gemma_fine_tuned_ignore_empty.py` script was introduced to ignore empty features during prediction generation. Using this script with the model fine-tuned for 1024 steps (`gemma_2_fine_tune_eos.py`) yielded a score of **0.78468**, improving upon the 0.78229 score obtained with the original `load_gemma_fine_tuned.py` script for the same 1024-step model.*
