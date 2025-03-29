@@ -48,6 +48,13 @@ python gemma_2_fine_tune.py
 ```
 This will save the fine-tuned model adapter weights to the `outputs_gemma2_base` directory.
 
+**Note on Ignoring Empty Features During Training:** To focus the model's training only on the features present for each passenger, the `gemma_2_fine_tune_ignore_empty.py` script was introduced. This script modifies the prompt generation during fine-tuning to exclude features with missing values (e.g., `NaN` or `None`). This prevents the model from being trained on placeholder values for missing data, potentially improving focus on relevant information. Use this script if you want to train a model that specifically ignores absent features during the training process.
+
+```bash
+python gemma_2_fine_tune_ignore_empty.py
+```
+This will save the fine-tuned model adapter weights to a directory like `outputs_gemma2_base_eos_ignore_empty_X` (depending on the `output_dir` set in the script).
+
 **Note:** To use the instruction-tuned version of Gemma-2 2b (`gemma-2-2b-it`) instead of the base model, modify the `model_id` variable in `gemma_2_fine_tune.py` before running the script:
 ```python
 # Change this line in gemma_2_fine_tune.py
@@ -55,10 +62,11 @@ model_id="google/gemma-2-2b-it"
 ```
 Remember to adjust the `output_dir` in `load_gemma_fine_tuned.py` accordingly if you change the output directory name in `gemma_2_fine_tune.py` when using the instruction-tuned model.
 
-**Note on EOS Token:** Initial fine-tuning runs sometimes resulted in the model generating extra text beyond the desired '0' or '1' prediction. To address this and focus the model's output, the `gemma_2_fine_tune_eos.py` script was created. This script explicitly appends the End-of-Sequence (`<eos>`) token to the training examples in the `formatting_func`. Use this script if you want to replicate the training that specifically incorporates the EOS token.
+**Note on EOS Token:** Initial fine-tuning runs sometimes resulted in the model generating extra text beyond the desired '0' or '1' prediction. To address this and focus the model's output, the `gemma_2_fine_tune_eos.py` script was created. This script explicitly appends the End-of-Sequence (`<eos>`) token to the training examples in the `formatting_func`. Both `gemma_2_fine_tune_eos.py` and `gemma_2_fine_tune_ignore_empty.py` incorporate this EOS token logic.
 
 #### 2. Generating Predictions with Fine-tuned Gemma
-The `load_gemma_fine_tuned.py` script loads the fine-tuned Gemma model adapter from a specified checkpoint directory (e.g., from `outputs_gemma2_base` or `outputs_gemma2_base_eos`) and uses it to predict survival for passengers in the `test.csv` file. Alternatively, the `load_gemma_fine_tuned_ignore_empty.py` script can be used, which performs the same function but specifically ignores features with empty values when generating the prompt for the model.
+- The `load_gemma_fine_tuned.py` script loads a fine-tuned Gemma model adapter (trained with `gemma_2_fine_tune.py` or `gemma_2_fine_tune_eos.py`) and uses it to predict survival for passengers in `test.csv`. It includes all features in the prompt, even those with missing values.
+- The `load_gemma_fine_tuned_ignore_empty.py` script also loads a fine-tuned model adapter but specifically ignores features with empty values when generating the prompt *during inference*. This can be used with models trained using any of the fine-tuning scripts (`gemma_2_fine_tune.py`, `gemma_2_fine_tune_eos.py`, or `gemma_2_fine_tune_ignore_empty.py`) if you want to exclude missing features only at prediction time. For models trained with `gemma_2_fine_tune_ignore_empty.py`, using this inference script ensures consistency between training and prediction.
 
 **Prerequisites:**
 *   Ensure `test.csv` is in the same directory.
@@ -82,6 +90,10 @@ The following table summarizes the Kaggle submission scores achieved with differ
 | Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      256       | **0.77511**  |
 | Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      512       | **0.78947**  |
 | Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |     1024       | **0.78229**  |
-| Gemma-2 2b (Base + EOS + Ignore Empty)     | `gemma_2_fine_tune_eos.py`         |     1024       | **0.78468**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty Inf.)| `gemma_2_fine_tune_eos.py`         |     1024       | **0.78468**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|      512       | **0.75598**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|      800       | **0.79904**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|     1024       | **0.78947**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|     1600       | **0.78708**  |
 
-*Note: The highest score (**0.78947**) was achieved with the Gemma-2 2b base model, fine-tuned for 512 steps using the script that explicitly adds the EOS token (`gemma_2_fine_tune_eos.py`). Additionally, the `load_gemma_fine_tuned_ignore_empty.py` script was introduced to ignore empty features during prediction generation. Using this script with the model fine-tuned for 1024 steps (`gemma_2_fine_tune_eos.py`) yielded a score of **0.78468**, improving upon the 0.78229 score obtained with the original `load_gemma_fine_tuned.py` script for the same 1024-step model.*
+*Note: The highest score (**0.79904**) was achieved with the Gemma-2 2b base model, fine-tuned for 800 steps using the `gemma_2_fine_tune_ignore_empty.py` script. This script ignores features with missing values during the training phase, focusing the model on relevant data. This score notably outperforms the Gemini "gemini-2.0-flash" model's score of 0.78947. The entry marked "Ignore Empty Inf." refers to using the `load_gemma_fine_tuned_ignore_empty.py` script for inference on a model originally trained with `gemma_2_fine_tune_eos.py`, which improved the score for that specific 1024-step model compared to using the standard inference script.*
