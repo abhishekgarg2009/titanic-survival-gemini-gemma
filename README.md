@@ -28,7 +28,7 @@ The Gemini-based prediction (`predict_gemini.py`) achieved a Kaggle submission s
 ### Usage
 
 #### 1. Fine-tuning Gemma-2 2b
-The `gemma_2_fine_tune.py` script fine-tunes the `google/gemma-2-2b` model on the `train.csv` dataset using QLoRA.
+The `gemma_2_fine_tune.py` script fine-tunes the `google/gemma-2-2b` model on the `train.csv` dataset using LoRA. The fine-tuning approach is based on a notebook published on Hugging Face: [https://www.kaggle.com/code/heidichoco/gemma-fine-tuning-for-beginners-with-huggingface](https://www.kaggle.com/code/heidichoco/gemma-fine-tuning-for-beginners-with-huggingface).
 
 **Prerequisites:**
 *   Ensure you have the necessary libraries installed (`transformers`, `trl`, `peft`, `datasets`, `torch`, `bitsandbytes`, `accelerate`).
