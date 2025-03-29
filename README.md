@@ -11,7 +11,15 @@ This repository contains code for predicting survival on the Titanic using Googl
 Set the `GEMINI_API_KEY` environment variable with your Google Gemini API key.
 
 ## Usage
-Run the `predict_gemini.py` script to generate a `submission.csv` file with the survival predictions.
+The `predict_gemini.py` script works by converting the Titanic survival prediction problem into a text completion task. For each passenger in the test set, the script provides the entire training dataset as context to the Gemini model ("gemini-2.0-flash"). The model then predicts whether the passenger survived or not.
+
+To generate a `submission.csv` file with the survival predictions, run the script:
+```bash
+python predict_gemini.py
+```
+
+## Performance
+The Gemini-based prediction (`predict_gemini.py`) achieved a Kaggle submission score of **0.78947**. This result outperforms the official Kaggle Titanic tutorial's score of 0.77511, which was achieved using a Random Forest classifier.
 
 ## Future Work
 * Fine-tune Gemma 2 on the Titanic dataset.
