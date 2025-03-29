@@ -3,6 +3,9 @@
 ## Description
 This repository contains code for predicting survival on the Titanic using Google's Gemini and Gemma models.
 
+## The Journey
+For a detailed account of the iterative process, experiments, and learnings involved in achieving the final results using Gemini and fine-tuned Gemma, please see the [Titanic LLM Journey document](titanic_llm_journey.md).
+
 ## Data
 1. Download the `train.csv` and `test.csv` files from the Kaggle Titanic competition: [https://www.kaggle.com/competitions/titanic/data](https://www.kaggle.com/competitions/titanic/data)
 2. Place the downloaded files in the same directory as the Python scripts.
