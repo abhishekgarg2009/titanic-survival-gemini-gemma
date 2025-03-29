@@ -20,8 +20,15 @@ To generate a `submission_gemini.csv` file with the survival predictions, run th
 python predict_gemini.py
 ```
 
+Additionally, the `predict_gemini_thinking.py` script uses the experimental model "gemini-2.0-flash-thinking-exp-01-21". It follows the same logic as `predict_gemini.py` but generates the submission file `submission_gemini_thinking.csv`.
+
+```bash
+python predict_gemini_thinking.py
+```
+
 ### Performance
-The Gemini-based prediction (`predict_gemini.py`) achieved a Kaggle submission score of **0.78947**. This result outperforms the official Kaggle Titanic tutorial's score of 0.77511, which was achieved using a Random Forest classifier.
+- The `predict_gemini.py` script (using "gemini-1.0-pro") achieved a Kaggle submission score of **0.78947**. This result outperforms the official Kaggle Titanic tutorial's score of 0.77511, which was achieved using a Random Forest classifier.
+- The `predict_gemini_thinking.py` script (using "gemini-2.0-flash-thinking-exp-01-21") achieved a Kaggle submission score of **0.77272**.
 
 ## Gemma
 
