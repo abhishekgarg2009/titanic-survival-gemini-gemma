@@ -41,6 +41,13 @@ python gemma_2_fine_tune.py
 ```
 This will save the fine-tuned model adapter weights to the `outputs_gemma2_base` directory.
 
+**Note:** To use the instruction-tuned version of Gemma-2 2b (`gemma-2-2b-it`) instead of the base model, modify the `model_id` variable in `gemma_2_fine_tune.py` before running the script:
+```python
+# Change this line in gemma_2_fine_tune.py
+model_id="google/gemma-2-2b-it" 
+```
+Remember to adjust the `output_dir` in `load_gemma_fine_tuned.py` accordingly if you change the output directory name in `gemma_2_fine_tune.py` when using the instruction-tuned model.
+
 #### 2. Generating Predictions with Fine-tuned Gemma
 The `load_gemma_fine_tuned.py` script loads the fine-tuned Gemma model adapter from a specified checkpoint directory and uses it to predict survival for passengers in the `test.csv` file.
 
@@ -55,4 +62,5 @@ python load_gemma_fine_tuned.py
 This will generate a `submission_gemma_base_128.csv` file with the predictions.
 
 ### Performance
-The fine-tuned Gemma-2 2b model (`load_gemma_fine_tuned.py` using the base model fine-tuned for 128 steps) achieved a Kaggle submission score of **0.77751**.
+*   The fine-tuned Gemma-2 2b **base** model (`load_gemma_fine_tuned.py` using `google/gemma-2-2b` fine-tuned for 128 steps) achieved a Kaggle submission score of **0.77751**.
+*   The fine-tuned Gemma-2 2b **instruction-tuned** model (`load_gemma_fine_tuned.py` using `google/gemma-2-2b-it` fine-tuned for 128 steps) achieved a Kaggle submission score of **0.78468**.
