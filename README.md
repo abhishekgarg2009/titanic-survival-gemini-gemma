@@ -90,10 +90,10 @@ The following table summarizes the Kaggle submission scores achieved with differ
 | Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      256       | **0.77511**  |
 | Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |      512       | **0.78947**  |
 | Gemma-2 2b (Base + EOS)                    | `gemma_2_fine_tune_eos.py`         |     1024       | **0.78229**  |
-| Gemma-2 2b (Base + EOS + Ignore Empty Inf.)| `gemma_2_fine_tune_eos.py`         |     1024       | **0.78468**  |
+| Gemma-2 2b (Base + EOS + Ignore Empty Inference Only)| `gemma_2_fine_tune_eos.py`         |     1024       | **0.78468**  |
 | Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|      512       | **0.75598**  |
 | Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|      800       | **0.79904**  |
 | Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|     1024       | **0.78947**  |
 | Gemma-2 2b (Base + EOS + Ignore Empty Train)| `gemma_2_fine_tune_ignore_empty.py`|     1600       | **0.78708**  |
 
-*Note: The highest score (**0.79904**) was achieved with the Gemma-2 2b base model, fine-tuned for 800 steps using the `gemma_2_fine_tune_ignore_empty.py` script. This script ignores features with missing values during the training phase, focusing the model on relevant data. This score notably outperforms the Gemini "gemini-2.0-flash" model's score of 0.78947. The entry marked "Ignore Empty Inf." refers to using the `load_gemma_fine_tuned_ignore_empty.py` script for inference on a model originally trained with `gemma_2_fine_tune_eos.py`, which improved the score for that specific 1024-step model compared to using the standard inference script.*
+*Note: The highest score (**0.79904**) was achieved with the Gemma-2 2b base model, fine-tuned for 800 steps using the `gemma_2_fine_tune_ignore_empty.py` script. This script ignores features with missing values during the training phase, focusing the model on relevant data. This score notably outperforms the Gemini "gemini-2.0-flash" model's score of 0.78947. The entry marked "Ignore Empty Inference Only" refers to using the `load_gemma_fine_tuned_ignore_empty.py` script for inference on a model originally trained with `gemma_2_fine_tune_eos.py`, which improved the score for that specific 1024-step model compared to using the standard inference script.*
