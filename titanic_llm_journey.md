@@ -55,4 +55,4 @@ My iterative journey through Gemini and Gemma for the Titanic challenge yielded 
 3.  **Task Specificity Matters:** The slightly lower performance of the Gemini "thinking" model suggests that understanding the nature of the task (pattern recognition vs. complex reasoning) is important for model selection.
 4.  **The Power of Pre-training:** The ability of these LLMs to achieve strong results demonstrates the power of starting with a model that already possesses a broad understanding of language and concepts, which can then be effectively adapted to specific, even traditionally ML-oriented, problems.
 
-Ultimately, achieving a score of **0.79904** with a fine-tuned Gemma-2 2b model showcased the potential of adapting LLMs for structured data prediction, proving that careful fine-tuning and iterative learning can lead to state-of-the-art results in my experiments.
+Ultimately, achieving a score of **0.79904** with a fine-tuned Gemma-2 2b model showcased the potential of adapting LLMs for structured data prediction.
